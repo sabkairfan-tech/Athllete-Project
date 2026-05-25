@@ -13,7 +13,12 @@ const userSchema = new mongoose.Schema({
   password: {
     type: String,
     required: true
+  },
+  file:{
+    type: String,
+    required: true
   }
+
 });
 
 module.exports = mongoose.model('user', userSchema);

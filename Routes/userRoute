@@ -1,11 +1,12 @@
 const express = require("express");
 const {getallusers,postusers} = require("../Controller/UserController");
 const router = express.Router();
+const upload = require("../middleware/upload");
 
 
 
 
 router.get("/users", getallusers);
-router.post("/create", postusers);
+router.post("/create", upload.single("file"), postusers);
 
 module.exports = router;
