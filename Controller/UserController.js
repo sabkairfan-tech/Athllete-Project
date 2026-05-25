@@ -1,5 +1,8 @@
 const user = require("../Model/UserModel");
 const upload = require("../middleware/upload");
+
+
+// Get all users
 const getallusers = async (req, res) => {
   try {
     const users = await user.find();
@@ -12,6 +15,8 @@ const getallusers = async (req, res) => {
   }
 };
 
+
+// Create a new user
 const postusers = async (req, res) => {
   try {
     const { name, email, password } = req.body;
@@ -43,4 +48,28 @@ const postusers = async (req, res) => {
   }
 };
 
-module.exports = { getallusers, postusers };
+
+
+//update user
+const updateusers = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { name, email, password } = req.body;
+
+    const updatedUser = await user.findByIdAndUpdate(
+      id,
+      { name, email, password },
+      { new: true }
+    );
+
+    if (!updatedUser) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    res.status(200).json({ message: "User updated successfully", data: updatedUser });
+  } catch (error) {
+    res.status(500).json({ message: "Error updating user" });
+  }
+};
+
+module.exports = { getallusers, postusers, updateusers };
