@@ -20,7 +20,7 @@ const getallusers = async (req, res) => {
 const postusers = async (req, res) => {
   try {
     const { name, email, password } = req.body;
-/*    if (email) 
+if (email) 
     {
     
       const existingUser = await user.findOne({ email });
@@ -29,7 +29,7 @@ const postusers = async (req, res) => {
         return res.status(400).json({ message: "User with this email already exists" });
       }
    }
-*/
+
  // file info
     const file = req.file;
 
@@ -38,7 +38,9 @@ const postusers = async (req, res) => {
         message: "File is required"
       });
     }
-    const newUser = await user.create({name,email,password,file});
+     const filePath = req.file.path
+
+    const newUser = await user.create({name,email,password,file:filePath});
 
     res.status(201).json({message: "User created successfully", data: newUser,
     });
@@ -51,25 +53,52 @@ const postusers = async (req, res) => {
 
 
 //update user
-const updateusers = async (req, res) => {
+const updateUser = async (req, res) => {
   try {
     const { id } = req.params;
     const { name, email, password } = req.body;
-
-    const updatedUser = await user.findByIdAndUpdate(
+   
+    const update = await user.findByIdAndUpdate(
       id,
-      { name, email, password },
+      { name, email, password},
       { new: true }
     );
 
-    if (!updatedUser) {
+    if (!update) {
       return res.status(404).json({ message: "User not found" });
     }
 
-    res.status(200).json({ message: "User updated successfully", data: updatedUser });
+    res.status(200).json({ message: "User updated successfully", data: update });
   } catch (error) {
     res.status(500).json({ message: "Error updating user" });
   }
 };
 
-module.exports = { getallusers, postusers, updateusers };
+
+const deleteUser = async (req,res) =>{
+try{
+  const {id} = req.params;
+const duser = await user.findByIdAndDelete(id);
+if (!duser){
+  return res.status(404).json({message:"user not found"});
+}
+res.status(200).json({message:"user deleted successfully"});
+}
+ catch (error) {
+    res.status(500).json({ message: error.message });
+  };
+}
+
+const getUserByID = async (req,res) => {
+try {const {id} = req.params;
+const userid = await user.findById(id);
+if(!userid){
+  return res.status(404).json({message:"user not found"})
+}
+res.status(200).json(userid)
+}
+catch (error){
+   res.status(500).json({ message: error.message });
+
+}}
+module.exports = { getallusers, postusers, updateUser,deleteUser,getUserByID };

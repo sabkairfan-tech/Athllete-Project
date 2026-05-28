@@ -17,9 +17,11 @@ const userSchema = new mongoose.Schema({
   file:{
     type: String,
     required: true
-  }
-
-});
+  },
+  },
+{
+    timestamps: true
+  });
 
 
 module.exports = mongoose.model('user', userSchema);

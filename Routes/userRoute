@@ -1,5 +1,5 @@
 const express = require("express");
-const {getallusers,postusers} = require("../Controller/UserController");
+const {getallusers,postusers,updateUser,deleteUser,getUserByID} = require("../Controller/UserController");
 const router = express.Router();
 const upload = require("../middleware/upload");
 
@@ -7,6 +7,9 @@ const upload = require("../middleware/upload");
 
 
 router.get("/users", getallusers);
+router.get("/user/:id",getUserByID);
+router.put("/update/:id", updateUser);
+router.delete("/user/:id", deleteUser);
 router.post("/create", upload.single("file"), postusers);
 
 module.exports = router;

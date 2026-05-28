@@ -14,9 +14,9 @@ app.use(express.json());
 app.use("/api", router);
 //onsole.log(process.env.MONGO_URI);
 
-//const connectDB = require('./Config/db')
+const connectDB = require('./Config/db')
 
-//connectDB();
+connectDB();
 
 
 
