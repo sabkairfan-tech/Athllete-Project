@@ -27,16 +27,7 @@ const workerSchema = new mongoose.Schema({
     enum: ["Employee", "Contractor"],
     required: true,
   },
-  Salary:{
-    type: Number,
-    required: true
-  },
-  operations: [
-    {
-      type: String,
-      enum: ["Flat", "Overlock", "Singer"],
-    },
-  ],
+ 
   address: {
     line1: String,
     line2: String,
