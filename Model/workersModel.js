@@ -27,11 +27,15 @@ const workerSchema = new mongoose.Schema({
     enum: ["Employee", "Contractor"],
     required: true,
   },
+<<<<<<< HEAD
   salary: {
     type: Number,
     required: true,
   },
 
+=======
+ 
+>>>>>>> 5da1d31059ef00ae7a1bf5b4c8479a8001321ead
   address: {
     line1: String,
     line2: String,
