@@ -1,17 +1,22 @@
-const user = require("../Model/UserModel");
+const User = require("../Model/UserModel");
 const upload = require("../middleware/upload");
 
 // Get all users
 const getUsers = async (req, res) => {
   try {
-    const users = await user.find();
-    res.status(200).json(users);
-  } catch (error) {
+    console.log("api hit");
+    const allUsers = await User.find();
+    
+
+    res.status(200).json(allUsers);
+      } catch (error) {
+          console.log("api not hit");
     res.status(500).json({
       message: "Users not found",
       error: error.message,
     });
-  }
+  
+}
 };
 
 // Create a new user
@@ -19,7 +24,7 @@ const postUser = async (req, res) => {
   try {
     const { name, email, password } = req.body;
     if (email) {
-      const existingUser = await user.findOne({ email });
+      const existingUser = await User.findOne({ email });
       if (existingUser) {
         return res
           .status(400)
@@ -37,7 +42,7 @@ const postUser = async (req, res) => {
     }
     const filePath = req.file.path;
 
-    const newUser = await user.create({
+    const newUser = await User.create({
       name,
       email,
       password,
@@ -58,7 +63,7 @@ const updateUser = async (req, res) => {
     const { id } = req.params;
     const { name, email, password } = req.body;
 
-    const update = await user.findByIdAndUpdate(
+    const update = await User.findByIdAndUpdate(
       id,
       { name, email, password },
       { new: true },
@@ -79,8 +84,8 @@ const updateUser = async (req, res) => {
 const deleteUser = async (req, res) => {
   try {
     const { id } = req.params;
-    const duser = await user.findByIdAndDelete(id);
-    if (!duser) {
+    const dUser = await User.findByIdAndDelete(id);
+    if (!dUser) {
       return res.status(404).json({ message: "user not found" });
     }
     res.status(200).json({ message: "user deleted successfully" });
@@ -91,8 +96,9 @@ const deleteUser = async (req, res) => {
 
 const getUserByID = async (req, res) => {
   try {
+    console.log("api hit");
     const { id } = req.params;
-    const userid = await user.findById(id);
+    const userid = await User.findById(id);
     if (!userid) {
       return res.status(404).json({ message: "user not found" });
     }
